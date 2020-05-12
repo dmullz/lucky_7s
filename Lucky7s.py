@@ -19,9 +19,13 @@ def build_4_plus_word_list(english_words):
                 
 
 def build_7plus_7unique_word_list(english_words):
+    unique_7letters = {}
     with open('lucky_7s_words.txt','w') as f:
         for word in english_words:
-            if len(word) > 6 and unique_letters(word) == 7:
+            key = list(set(list(word)))
+            key.sort()
+            if len(word) > 6 and unique_letters(word) == 7 and str(key) not in unique_7letters:
+                unique_7letters[str(key)] = word
                 f.write(word+"\n")
 
 
@@ -33,7 +37,7 @@ def get_lucky_7s_word():
     epoch_time = int(time.time())
     epoch_day = epoch_time // 86400
     lucky_7s_words = load_words('lucky_7s_words.txt',"list")
-    word_index = (epoch_day - 18383) % len(lucky_7s_words)
+    word_index = (epoch_day - 18389) % len(lucky_7s_words) #18389
     return lucky_7s_words[word_index]
 
 
@@ -106,7 +110,7 @@ def start_game(center_letter, valid_words, letters):
 
 if __name__ == '__main__':
     english_words = load_words('words_4plus.txt',"set")
-    #lucky_7s_words = load_words('lucky_7s_words.txt',"list")
+    lucky_7s_words = load_words('lucky_7s_words.txt',"list")
     
     #print('wizardry:',str(unique_letters('wizardry')))
     #print('bananas:',str(unique_letters('bananas')))
